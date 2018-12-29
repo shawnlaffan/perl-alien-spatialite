@@ -1,4 +1,4 @@
-package Alien::proj;
+package Alien::spatialite;
 
 use strict;
 use warnings;
@@ -13,7 +13,7 @@ __END__
 
 =head1 NAME
 
-Alien::proj - Compile the PROJ library
+Alien::spatialite - Compile the spatialite library
 
 =head1 BUILD STATUS
  
@@ -21,37 +21,39 @@ Alien::proj - Compile the PROJ library
  
 <p>
     <img src="https://img.shields.io/badge/perl-5.10+-blue.svg" alt="Requires Perl 5.10+" />
-    <a href="https://travis-ci.org/shawnlaffan/perl-alien-proj4"><img src="https://travis-ci.org/shawnlaffan/perl-alien-proj4.svg?branch=master" /></a>
-    <a href="https://ci.appveyor.com/project/shawnlaffan/perl-alien-proj4"><img src="https://ci.appveyor.com/api/projects/status/3lv9qu9ea2ex3p5d?svg=true" /></a>
+    <a href="https://travis-ci.org/shawnlaffan/perl-alien-spatialite"><img src="https://travis-ci.org/shawnlaffan/perl-alien-spatialite.svg?branch=master" /></a>
+    <a href="https://ci.appveyor.com/project/shawnlaffan/perl-alien-spatialite"><img src="https://ci.appveyor.com/api/projects/status/3lv9qu9ea2ex3p5d?svg=true" /></a>
 </p>
 
 =end HTML
 
 =head1 SYNOPSIS
 
-    use Alien::proj4;
+    use Alien::spatialite;
 
     
 =head1 DESCRIPTION
 
-PROJ is a generic coordinate transformation software.  See L<https://proj4.org/about.html>.
-
 This Alien package is probably most useful for compilation of other modules, e.g. L<Geo::GDAL::FFI>.
 
-The Proj library can be accessed from Perl code via the L<Geo::Proj4> package.  
 
 =head1 REPORTING BUGS
 
 Please send any bugs, suggestions, or feature requests to 
-L<https://github.com/shawnlaffan/perl-alien-proj4/issues>.
+L<https://github.com/shawnlaffan/perl-alien-spatialite/issues>.
 
 =head1 SEE ALSO
 
-L<Geo:Proj4>
-
 L<Geo::GDAL::FFI>
 
+L<Alien::gdal>
+
 L<Alien::geos::af>
+
+L<Alien::proj>
+
+L<Alien::spatialite>
+
 
 
 =head1 AUTHORS

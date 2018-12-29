@@ -21,7 +21,7 @@ warn $@ if $@;
 
 diag ('bin dir: ' . join (' ', Alien::spatialite->bin_dir));
 my @bin = Alien::spatialite->bin_dir;
-warn "no proj bin dir found via bin_dir method\n" if not @bin;
+warn "no bin dir found via bin_dir method\n" if not @bin;
 
 TODO: {
     local $TODO = 'leftover from gdal - might not need to be todo';

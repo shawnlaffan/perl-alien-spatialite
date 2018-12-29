@@ -14,6 +14,29 @@ my $on_automated_rig
 use Cwd;
 my $base_dir = getcwd();
 
+#  make sure we get spatialite support
+#use Alien::geos::af;
+use Alien::proj;
+use Alien::sqlite;
+use Alien::freexl;
+use Alien::geos::af;
+
+
+my $sep_char = $on_windows ? ';' : ':';
+$ENV{PATH} .= $sep_char
+           . join ($sep_char,
+                   Alien::sqlite->bin_dir,
+                   Alien::proj->bin_dir,
+                   Alien::freexl->bin_dir,
+                   Alien::geos::af->bin_dir,
+            );
+
+plugin 'Build::SearchDep' => (
+  aliens   => [qw( Alien::sqlite Alien::proj Alien::freexl Alien::geos::af )],
+  public_I => 1,
+  public_l => 1,
+);
+
 #  make libtool noisy for debug purposes
 #$ENV{LTFLAGS} = "--debug --verbose" if $on_windows;
 
@@ -52,6 +75,8 @@ share {
   $build_static = '--enable-static=no';  #  override - needed?  leftover from gdal
   $build_static = '' if $ENV{FORCE_DYNAMIC};
   
+  my $build_with_libxml2  = '--enable-libxml2=no';
+  my $build_with_examples = '--enable-examples=no';
   
   if ($^O =~ /bsd/) {
     plugin 'Build::Make' => 'gmake';
@@ -89,7 +114,7 @@ share {
   }
   
   build [
-    "%{configure} $with_local $with_cpp11 $build_static",
+    "%{configure} $with_local $with_cpp11 $build_static $build_with_libxml2 $build_with_examples",
     \&pause,
     $make_cmd,
     $make_inst_cmd,
