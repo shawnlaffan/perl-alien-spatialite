@@ -19,10 +19,10 @@ my $base_dir = getcwd();
 
 
 
-my $min_target_version = '4.9.0';
+my $min_target_version = '4.3.0';
 
 plugin 'PkgConfig' => (
-    pkg_name => 'proj',
+    pkg_name => 'spatialite',
     minimum_version => $min_target_version,
 );
 
@@ -32,15 +32,15 @@ share {
   my $with_local = '';
   my $with_cpp11 = '';
 
-  start_url 'http://download.osgeo.org/proj/';
+  start_url 'http://www.gaia-gis.it/gaia-sins/libspatialite-sources/';
   #start_url "file://$base_dir";  #  debug
   plugin Download => (
-    filter  => qr/^proj-([0-9\.]+)\.tar\.gz$/,
-    version => qr/^proj-([0-9\.]+)\.tar\.gz$/,
+    filter  => qr/^libspatialite-([0-9\.]+[a-z]?)\.tar\.gz$/,
+    version => qr/^libspatialite-([0-9\.]+[a-z]?)\.tar\.gz$/,
   );
 
-  my $proj_version = get_proj_version() // 'not yet defined';
-  say "Downloaded proj version is $proj_version";
+  my $lib_version = get_lib_version() // 'not yet defined';
+  say "Downloaded spatialite version is $lib_version";
   
   plugin Extract => (format => 'tar.gz');
 
@@ -112,7 +112,7 @@ sub pause {
 }
 
 
-sub get_proj_version {
+sub get_lib_version {
     my $h = get_alien_state_hash();
     return $h->{runtime}{version};
 }
