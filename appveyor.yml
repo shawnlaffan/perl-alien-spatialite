@@ -21,6 +21,7 @@ install:
   - cpanm --quiet --notest Alien::geos::af
   - cpanm --quiet --notest Alien::freexl
   - cpanm --quiet --notest Alien::sqlite
+  - cpanm --quiet --notest Alien::proj
   - cpanm --quiet Alien::Build::Plugin::Cleanse::BuildDir
   - cpanm --quiet --notest --installdeps .
   - cpanm --quiet --notest Alien::Build::Plugin::Fetch::Cache
