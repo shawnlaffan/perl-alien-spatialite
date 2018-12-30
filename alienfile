@@ -77,6 +77,7 @@ share {
   
   my $build_with_libxml2  = '--enable-libxml2=no';
   my $build_with_examples = '--enable-examples=no';
+  my $build_target = $on_windows ? '--target=mingw32' : '';
   
   if ($^O =~ /bsd/) {
     plugin 'Build::Make' => 'gmake';
@@ -114,7 +115,7 @@ share {
   }
   
   build [
-    "%{configure} $with_local $with_cpp11 $build_static $build_with_libxml2 $build_with_examples",
+    "%{configure} $with_local $with_cpp11 $build_static $build_with_libxml2 $build_with_examples $build_target",
     \&pause,
     $make_cmd,
     $make_inst_cmd,

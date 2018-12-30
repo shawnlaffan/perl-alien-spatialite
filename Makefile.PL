@@ -14,6 +14,7 @@ my %common_reqs = (
     'Alien::sqlite' => '1.02',
     'Alien::proj' => 0,
     'Alien::freexl' => 0,
+    'Alien::geos::af' => '1.006',
     ($^O =~ /mswin/i) ? ("Alien::MSYS" => 0) : (),
 );
 
