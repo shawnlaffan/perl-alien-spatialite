@@ -18,9 +18,10 @@ install:
   - cpanm --quiet --notest Alien::Build::MM
   - cpanm --quiet --notest Sort::Versions
   - cpanm --quiet --notest PkgConfig
+  - cpanm --notest --installdeps Alien::geos::af
   - cpanm --notest -v Alien::geos::af
   - cpanm --notest Alien::freexl
-  - cpanm --notest Alien::sqlite
+  - cpanm --notest -v Alien::sqlite
   - cpanm --notest -v Alien::libtiff
   - cpanm --notest --installdeps Alien::proj
   - cpanm --notest -v https://github.com/shawnlaffan/perl-alien-proj.git
