@@ -72,10 +72,12 @@ share {
   $build_static = '';
   $build_static = '--enable-static=no';  #  override - needed?  leftover from gdal
   $build_static = '' if $ENV{FORCE_DYNAMIC};
-  
+
+  # most of these are crude  
   my $build_with_libxml2  = '--enable-libxml2=no';
   my $build_with_examples = '--enable-examples=no';
   my $build_target = $on_windows ? '--target=mingw32' : '';
+  my $build_with_minizip = '--enable-minizip=no';
   
   if ($^O =~ /bsd/) {
     plugin 'Build::Make' => 'gmake';
@@ -110,7 +112,7 @@ share {
   }
   
   build [
-    "%{configure} $with_local $with_cpp11 $build_static $build_with_libxml2 $build_with_examples $build_target",
+    "%{configure} $with_local $with_cpp11 $build_static $build_with_minizip $build_with_libxml2 $build_with_examples $build_target",
     \&pause,
     $make_cmd,
     $make_inst_cmd,
