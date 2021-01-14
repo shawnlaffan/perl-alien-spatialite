@@ -24,7 +24,8 @@ install:
   - cpanm --notest -v Alien::sqlite
   - cpanm --notest -v Alien::libtiff
   - cpanm --notest --installdeps Alien::proj
-  - cpanm --notest -v https://github.com/shawnlaffan/perl-alien-proj.git
+  #- cpanm --notest -v https://github.com/shawnlaffan/perl-alien-proj.git
+  - cpanm --notest -v Alien::proj
   - cpanm --quiet Alien::Build::Plugin::Cleanse::BuildDir
   - cpanm --quiet --notest --installdeps .
   - cpanm --quiet --notest Alien::Build::Plugin::Fetch::Cache
