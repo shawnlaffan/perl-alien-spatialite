@@ -1,0 +1,12 @@
+Revision history for Alien::spatialite
+
+1.04 2019-01-06
+    - Set Alien::geos::af minimum version to 1.007
+      It has better libs and cflags detection for some systems
+
+1.03 2018-12-30
+    - Modify configure args so we generate dynamic libs
+    - Add missing deps to Makefile.PL
+
+1.02 2018-12-29
+    - First release to cpan
