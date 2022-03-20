@@ -151,14 +151,8 @@ share {
 sub set_compiler_flags {
   my ($orig, $build, @args) = @_;
 
-  #return $orig->($build, @args)
-  #  if !$on_windows;
-
-  local $ENV{CFLAGS} = $ENV{CFLAGS};
-  local $ENV{CXXFLAGS} = $ENV{CXXFLAGS};
-
-  $ENV{CFLAGS}   .= ' -O2 ';
-  $ENV{CXXFLAGS} .= ' -O2 ';
+  local $ENV{CFLAGS}   = "-O2 " . ($ENV{CFLAGS} // '');
+  local $ENV{CXXFLAGS} = '-O2 ' . ($ENV{CXXFLAGS} // '');
 
   $build->log ("Setting compiler flag env vars to -O2");
 
