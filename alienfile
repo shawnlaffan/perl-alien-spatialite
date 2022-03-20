@@ -68,6 +68,7 @@ share {
 
 
   plugin 'Build::Autoconf' => ();
+  plugin 'PkgConfig::PPWrapper';
 
   my $build_static = ($^O =~ /mswin/i) ? '' : '--disable-shared';
   $build_static = '';
@@ -75,15 +76,32 @@ share {
   $build_static = '' if $ENV{FORCE_DYNAMIC};
 
   # most of these are crude  
-  my $build_with_libxml2  = '--enable-libxml2=no';
-  my $build_with_examples = '--enable-examples=no';
-  my $build_target = $on_windows ? '--target=mingw32' : '';
-  my $build_with_minizip = '--enable-minizip=no';
+  # we can enable librttopo when we have an alien for it
+  my $extra_build_args
+    = ($on_windows ? '--target=mingw32' : '')
+      . join ' ', (qw /
+      --enable-libxml2=no
+      --enable-examples=no
+      --enable-minizip=no
+      --disable-rttopo
+      --disable-gcp
+    /);
+
+  #  see if this helps with cirrus bsd builds
+  #$ENV{SQLITE3_CFLAGS} = Alien::sqlite->cflags;
+  #$ENV{SQLITE3_LIBS} = Alien::sqlite->libs;
+  #say "sqlite cflags: " . Alien::sqlite->cflags;
+  #say "sqlite libs: " . Alien::sqlite->libs;
   
   if ($^O =~ /bsd/) {
     plugin 'Build::Make' => 'gmake';
     if (-d '/usr/local') {
         $with_local = ' --with-local=/usr/local ';
+    }
+    if (!-e '/usr/local/include/sqlite3.h' && Alien::sqlite->install_type eq 'system') {
+      warn '/usr/local/include/sqlite3.h does not exist, '
+         . 'you might need to install the sqlite package for your system, '
+         . 'or install a share version of Alien::sqlite';
     }
   }
   elsif ($^O =~ /dragonfly/) {
@@ -111,9 +129,17 @@ share {
     #  clean up the build dir on cpan testers etc
     plugin 'Cleanse::BuildDir';
   }
+
+  #  ensure we optimise - should enable user control somehow
+  my $config_flags = qq{CFLAGS='-O2' CXXFLAGS='-O2'};
+  $config_flags = '';
+  #local $ENV{CFLAGS}   = '-O2';
+  #local $ENV{CXXFLAGS} = '-O2';
+  #say "CFLAGS IS " . ($ENV{CFLAGS} // '');
   
+
   build [
-    "%{configure} $with_local $with_cpp11 $build_static $build_with_minizip $build_with_libxml2 $build_with_examples $build_target",
+    "%{configure} $config_flags $with_local $with_cpp11 $build_static $extra_build_args",
     \&pause,
     $make_cmd,
     $make_inst_cmd,
