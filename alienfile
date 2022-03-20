@@ -136,7 +136,7 @@ share {
   #local $ENV{CFLAGS}   = '-O2';
   #local $ENV{CXXFLAGS} = '-O2';
   #say "CFLAGS IS " . ($ENV{CFLAGS} // '');
-  
+  meta->around_hook( build => \&set_compiler_flags );
 
   build [
     "%{configure} $config_flags $with_local $with_cpp11 $build_static $extra_build_args",
@@ -148,9 +148,25 @@ share {
 
 };
 
+sub set_compiler_flags {
+  my ($orig, $build, @args) = @_;
+
+  #return $orig->($build, @args)
+  #  if !$on_windows;
+
+  local $ENV{CFLAGS} = $ENV{CFLAGS};
+  local $ENV{CXXFLAGS} = $ENV{CXXFLAGS};
+
+  $ENV{CFLAGS}   .= ' -O2 ';
+  $ENV{CXXFLAGS} .= ' -O2 ';
+
+  $build->log ("Setting compiler flag env vars to -O2");
+
+  $orig->($build, @args);
+}
 
 sub pause {
-    return;  #  re-enable in case of debug
+    #return;  #  re-enable in case of debug
     return if $on_automated_rig;
     return if !$on_windows;
 
