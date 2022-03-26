@@ -137,6 +137,14 @@ share {
   #local $ENV{CXXFLAGS} = '-O2';
   #say "CFLAGS IS " . ($ENV{CFLAGS} // '');
   meta->around_hook( build => \&set_compiler_flags );
+  meta->around_hook(
+    build => sub {
+      my ($orig, $build, @args) = @_;
+      $build->log("Setting CCACHE_BASEDIR to " . getcwd());
+      local $ENV{CCACHE_BASEDIR} = getcwd();
+      $orig->($build, @args);
+    }
+  );
 
   build [
     "%{configure} $config_flags $with_local $with_cpp11 $build_static $extra_build_args",
