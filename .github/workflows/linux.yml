@@ -25,7 +25,7 @@ jobs:
 
       - name: cmake for geos
         run: |
-          sudo apt-get --yes install cmake
+          sudo apt-get --yes install cmake patchelf
 
       - name: perl -V
         run: perl -V
@@ -61,6 +61,8 @@ jobs:
           cpanm --installdeps --notest Alien::proj
           cpanm -v Alien::proj
           cpanm --notest Alien::freexl
+          #  cpanm --notest --installdeps Alien::patchelf
+          cpanm --notest Alien::patchelf
           cpanm --installdeps --notest .
           
       - name: Run Tests
