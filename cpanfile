@@ -1,3 +1,4 @@
+requires 'Alien::Build' => '2.48';
 requires 'Alien::freexl' => '0';
 requires 'Alien::geos::af' => '0';
 requires 'Alien::sqlite' => '0';
