@@ -130,12 +130,6 @@ share {
     plugin 'Cleanse::BuildDir';
   }
 
-  #  ensure we optimise - should enable user control somehow
-  my $config_flags = qq{CFLAGS='-O2' CXXFLAGS='-O2'};
-  $config_flags = '';
-  #local $ENV{CFLAGS}   = '-O2';
-  #local $ENV{CXXFLAGS} = '-O2';
-  #say "CFLAGS IS " . ($ENV{CFLAGS} // '');
   meta->around_hook( build => \&set_compiler_flags );
   meta->around_hook(
     build => sub {
@@ -147,7 +141,7 @@ share {
   );
 
   build [
-    "%{configure} $config_flags $with_local $with_cpp11 $build_static $extra_build_args",
+    "%{configure} $with_local $with_cpp11 $build_static $extra_build_args",
     \&pause,
     $make_cmd,
     $make_inst_cmd,
