@@ -25,7 +25,8 @@ jobs:
 
       - name: cmake for geos
         run: |
-          sudo apt-get --yes install cmake patchelf
+          sudo apt-get --yes install cmake
+          sudo apt-get --yes install patchelf
 
       - name: perl -V
         run: perl -V
@@ -52,6 +53,8 @@ jobs:
           echo $(perl -Mlocal::lib=${HOME}/perl5)
           eval "$(perl -Mlocal::lib=${HOME}/perl5)"
           cpanm --notest Alien::Build  
+          cpanm --notest --installdeps Alien::patchelf
+          cpanm --notest --verbose Alien::patchelf
           cpanm --installdeps --notest Alien::sqlite
           cpanm -v Alien::sqlite
           cpanm --installdeps --notest Alien::libtiff
@@ -61,8 +64,6 @@ jobs:
           cpanm --installdeps --notest Alien::proj
           cpanm -v Alien::proj
           cpanm --notest Alien::freexl
-          cpanm --notest --installdeps Alien::patchelf
-          cpanm --notest --verbose Alien::patchelf
           cpanm --installdeps --notest .
           
       - name: Run Tests
