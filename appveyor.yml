@@ -20,6 +20,7 @@ install:
   - cpanm --quiet --notest PkgConfig
   - cpanm --quiet --notest Alien::Build::Plugin::Fetch::Cache
   #  Alien::automake is a pain
+  - cpanm --installdeps --notest Alien::automake  
   - cpanm --verbose Alien::automake  
   - cpanm --notest --installdeps Alien::geos::af
   - cpanm --notest -v Alien::geos::af
