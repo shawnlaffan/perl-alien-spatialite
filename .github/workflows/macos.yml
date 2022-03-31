@@ -63,6 +63,9 @@ jobs:
           cpanm --notest Alien::geos::af
           cpanm --notest Alien::libtiff
           cpanm --notest Alien::proj
+          cpanm --notest Alien::freexl
+          #  get the rest
+          cpanm --notest --installdeps .
       
       - name: Build and then run tests
         run: |

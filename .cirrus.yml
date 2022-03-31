@@ -33,6 +33,8 @@ task:
     - MAKEFLAGS=-j4 cpanm -v Alien::libtiff
     - cpanm --installdeps --notest Alien::geos::af
     - MAKEFLAGS=-j4 cpanm -v Alien::geos::af
+    - MAKEFLAGS=-j4 cpanm -v Alien::freexl
+    - cpanm --installdeps --notest .
     
   script:
     - eval $(perl -I ${PERL_MOD_DIR}/lib/perl5/ -Mlocal::lib)
