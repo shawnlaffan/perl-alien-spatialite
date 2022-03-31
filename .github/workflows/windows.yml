@@ -81,6 +81,7 @@ jobs:
           cpanm -v --notest Alien::proj
           cpanm --installdeps --notest Alien::geos::af
           cpanm -v Alien::geos::af
+          cpanm --notest Alien::freexl
   
       # Runs a set of commands using the runners shell
       - name: Build

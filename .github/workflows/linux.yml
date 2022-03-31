@@ -60,7 +60,8 @@ jobs:
           cpanm -v Alien::geos::af
           cpanm --installdeps --notest Alien::proj
           cpanm -v Alien::proj
-          cpanm --installdeps .
+          cpanm --notest Alien::freexl
+          #cpanm --installdeps .
           
       - name: Run Tests
         run: |
