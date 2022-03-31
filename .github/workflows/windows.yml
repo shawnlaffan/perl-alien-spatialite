@@ -1,0 +1,105 @@
+name: Windows
+
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+
+env:
+  PERL5LIB: c:\cx\lib\perl5
+  PERL_LOCAL_LIB_ROOT: c:/cx
+  PERL_MB_OPT: --install_base C:/cx
+  PERL_MM_OPT: INSTALL_BASE=C:/cx
+  ALIEN_BUILD_PRELOAD: Fetch::Cache
+  AUTOMATED_TESTING: 1
+
+jobs:
+  perl:
+    runs-on: windows-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Perl
+        run: |
+          choco install strawberryperl
+          echo "C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+  
+      - name: perl -V
+        run: perl -V
+        
+      - name: Prepare for CPAN cache
+        run: |
+          perl -V > perlversion.txt
+          echo '20220401' >> perlversion.txt
+          dir perlversion.txt
+
+      - name: Cache CPAN modules
+        uses: actions/cache@v1
+        with:
+          path: c:\cx
+          key: ${{ runner.os }}-build-${{ hashFiles('perlversion.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('perlversion.txt') }}
+
+      - name: Prepare for Alien cache
+        run: |
+          perl -V > aliencache.txt
+          echo 'aliens 20220401' >> aliencache.txt
+          dir aliencache.txt
+
+      - name: Cache Alien downloads
+        uses: actions/cache@v1
+        with:
+          path: C:\Users\runneradmin\.alienbuild
+          key: ${{ runner.os }}-build-${{ hashFiles('aliencache.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('aliencache.txt') }}
+
+      #- name: Install Dependencies
+      #  run: curl -sL https://git.io/cpm | perl - install -g --show-build-log-on-failure
+  
+      - name: Install dependencies 1
+        run: |
+          cpanm --quiet --notest Alien::Build::Plugin::Fetch::Cache
+
+      - name: Install dependencies Alien::MSYS
+        run: |
+          cpanm --notest Alien::MSYS
+
+      - name: Install alien dependencies
+        run: |
+          cpanm --installdeps --notest Alien::sqlite
+          cpanm -v Alien::sqlite
+          cpanm --installdeps --notest Alien::libtiff
+          cpanm -v --notest Alien::libtiff
+          cpanm --installdeps --notest Alien::proj
+          cpanm -v --notest Alien::proj
+          cpanm --installdeps --notest Alien::geos::af
+          cpanm -v Alien::geos::af
+  
+      # Runs a set of commands using the runners shell
+      - name: Build
+        run: |
+          perl Makefile.PL
+          cpanm --notest --installdeps .
+          gmake
+          gmake test TEST_VERBOSE=1
+
+      #- name: Zip _alien
+      #  #if: ${{ failure() }}
+      #  if: ${{ always() }}
+      #  run: |
+      #    pwd
+      #    & 7z.exe a _alien.7z _alien
+      #    
+      #- name: Upload artefact
+      #  if: ${{ always() }}
+      #  uses: actions/upload-artifact@v1
+      #  with:
+      #    name: _alien.7z
+      #    path: ./_alien.7z
