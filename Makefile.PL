@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
     "BUILD_REQUIRES" => {
         %common_reqs,
         "File::Find::Rule" => 0,
-        ($^O =~ /mswin|darwin/i) ? () : ("Alien::patchelf" => '0'),
+        (not $^O =~ /mswin|darwin/i) ? ("Alien::patchelf" => '0') : (),
         'Path::Tiny' => '0',
     },
     "TEST_REQUIRES" => {

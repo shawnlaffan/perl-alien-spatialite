@@ -191,7 +191,12 @@ sub patch_rpaths {
               ->name( qr/^(lib|mod_)spatialite.so.?/ )
               ->in( getcwd() );
   
-  require Alien::patchelf;
+  eval {require
+          'Alien::patchelf'}
+    or do {
+      warn 'Unable to load Alien::patchelf, cannot update rpaths';
+      return;
+    };
   my $pe = Alien::patchelf->new;
   foreach my $so_file (@so_files) {
     my ($old_rpath, $result, $stderr, @errors);
