@@ -61,8 +61,8 @@ jobs:
           cpanm --installdeps --notest Alien::proj
           cpanm -v Alien::proj
           cpanm --notest Alien::freexl
-          #  cpanm --notest --installdeps Alien::patchelf
-          cpanm --notest Alien::patchelf
+          cpanm --notest --installdeps Alien::patchelf
+          cpanm --notest --verbose Alien::patchelf
           cpanm --installdeps --notest .
           
       - name: Run Tests
