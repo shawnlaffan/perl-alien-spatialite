@@ -18,6 +18,9 @@ install:
   - cpanm --quiet --notest Alien::Build::MM
   - cpanm --quiet --notest Sort::Versions
   - cpanm --quiet --notest PkgConfig
+  - cpanm --quiet --notest Alien::Build::Plugin::Fetch::Cache
+  #  Alien::automake is a pain
+  - cpanm --verbose Alien::automake  
   - cpanm --notest --installdeps Alien::geos::af
   - cpanm --notest -v Alien::geos::af
   - cpanm --notest Alien::freexl
@@ -28,7 +31,6 @@ install:
   - cpanm --notest -v Alien::proj
   - cpanm --quiet Alien::Build::Plugin::Cleanse::BuildDir
   - cpanm --quiet --notest --installdeps .
-  - cpanm --quiet --notest Alien::Build::Plugin::Fetch::Cache
   
 
   - gcc -v
