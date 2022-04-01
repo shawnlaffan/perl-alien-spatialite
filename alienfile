@@ -153,6 +153,7 @@ share {
 
 };
 
+#  should be a gather hook working on the stage dir
 sub patch_rpaths {
   my ($build) = @_;
   
