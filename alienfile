@@ -227,7 +227,7 @@ sub set_compiler_flags {
 }
 
 sub pause {
-    #return;  #  re-enable in case of debug
+    return;  #  re-enable in case of debug
     return if $on_automated_rig;
     return if !$on_windows;
 
