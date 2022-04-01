@@ -1,5 +1,8 @@
 Revision history for Alien::spatialite
 
+1.07 2022-04-01
+    - Share builds: change method of requiring Alien::patchelf
+
 1.06 2022-04-01
     - Share builds:
       - Use the patchelf utility to set
