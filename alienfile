@@ -147,11 +147,29 @@ share {
     \&pause,
     $make_cmd,
     \&patch_rpaths,
+    \&rename_la_files,
     $make_inst_cmd,
     #@make_clean
   ];
 
 };
+
+
+sub rename_la_files {
+    #  need to return if not share
+    return if !$on_windows;
+    
+    use File::Find::Rule;
+    my @la_files
+      = File::Find::Rule->file()
+                        ->name( '*.la' )
+                        ->in( '.' );
+    foreach my $file (@la_files) {
+        Alien::Build->log("Renaming $file so it will not interfere with gdal compilation");
+        rename $file, $file . '.bak';
+    }
+
+}
 
 #  should be a gather hook working on the stage dir
 sub patch_rpaths {
