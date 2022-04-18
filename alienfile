@@ -73,14 +73,15 @@ share {
   plugin 'PkgConfig::PPWrapper';
 
   my $build_static = ($^O =~ /mswin/i) ? '' : '--disable-shared';
-  $build_static = '';
-  $build_static = '--enable-static=no';  #  override - needed?  leftover from gdal
-  $build_static = '' if $ENV{FORCE_DYNAMIC};
+  #$build_static = '';
+  #$build_static = '--enable-static=no';  #  override - needed?  leftover from gdal
+  $build_static = '--enable-shared=yes';
+  #$build_static = '' if $ENV{FORCE_DYNAMIC};
 
   # most of these are crude  
   # we can enable librttopo when we have an alien for it
   my $extra_build_args
-    = ($on_windows ? '--target=mingw32' : '')
+    = ($on_windows ? '--target=mingw32 ' : '')
       . join ' ', (qw /
       --enable-libxml2=no
       --enable-examples=no
