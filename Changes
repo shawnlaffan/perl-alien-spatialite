@@ -1,8 +1,10 @@
 Revision history for Alien::spatialite
 
-1.09 ????-??-??
-    - Share builds: Modify old configure script on freebsd
-      (temporary fix until main repo is updated)
+1.09 2022-11-26
+    - Share builds:
+      - Use https for downloads
+      - Modify old configure script on freebsd
+        (temporary fix until spatialite releases are updated)
 
 1.08 2022-04-18
     - Share builds on windows:
